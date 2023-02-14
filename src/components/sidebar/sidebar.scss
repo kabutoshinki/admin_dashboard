@@ -1,3 +1,4 @@
+
 .sidebar {
   flex: 1;
   border-right: 0.5px solid rgb(230, 227, 227);
@@ -10,10 +11,15 @@
     align-items: center;
     justify-content: center;
 
-    .logo {
+    .logo{
+      height: fit-content;
+      width: 25px;
+    }
+    .logoTitle{
+      color: #00B1FF;
       font-size: 20px;
       font-weight: bold;
-      color: #6439ff;
+      margin-left: 10px;
     }
   }
 

@@ -15,9 +15,23 @@ import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import logo from "../../images/logo.png";
+import { auth } from "../../firebase";
+import { signOut } from "firebase/auth";
+import { AuthContext } from "../../context/AuthContext";
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
-
+  const { dispatch: dispatchAuth } = useContext(AuthContext);
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("success");
+        dispatchAuth({ type: "LOGOUT" });
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log(error);
+      });
+  };
   return (
     <div className="sidebar">
       <div className="top">
@@ -46,7 +60,7 @@ const Sidebar = () => {
           <Link to="/products" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span>Products</span>
+              <span>Projects</span>
             </li>
           </Link>
           <p className="title">USEFUL</p>
@@ -65,7 +79,7 @@ const Sidebar = () => {
           </li>
           <li>
             <ExitToAppIcon className="icon" />
-            <span>Logout</span>
+            <span onClick={handleLogout}>Logout</span>
           </li>
         </ul>
       </div>

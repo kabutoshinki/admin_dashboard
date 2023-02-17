@@ -14,14 +14,15 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
-
+import logo from "../../images/logo.png";
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+
   return (
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <img className="h-fit w-8 logo" src="logo.png" alt="BindUP logo" />
+          <img className="h-fit w-8 logo" src={logo} alt="BindUP logo" />
           <span className="logoTitle">BindUp</span>
         </Link>
       </div>

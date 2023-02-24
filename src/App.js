@@ -9,6 +9,8 @@ import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
+import ListProjects from "./pages/list/ListProjects";
+import ProjectDetail from "./pages/project/ProjectDetail";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -58,20 +60,20 @@ function App() {
                 }
               />
             </Route>
-            <Route path="products">
+            <Route path="projects">
               <Route
                 index
                 element={
                   <RequireAuth>
-                    <List />
+                    <ListProjects />
                   </RequireAuth>
                 }
               />
               <Route
-                path=":productId"
+                path=":projectId"
                 element={
                   <RequireAuth>
-                    <Single />
+                    <ProjectDetail />
                   </RequireAuth>
                 }
               />

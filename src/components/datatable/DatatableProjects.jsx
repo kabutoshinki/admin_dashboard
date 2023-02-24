@@ -1,37 +1,22 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../datatablesource";
+import { userColumns, userRows, projectColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { collection, getDocs, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
-import { async } from "@firebase/util";
-const Datatable = () => {
-  const [data, setData] = useState([]);
+import useFetch from "../../hooks/useFetch";
 
-  useEffect(() => {
-    const unsub = onSnapshot(
-      collection(db, "User"),
-      (snapShot) => {
-        let list = [];
-        snapShot.docs.forEach((doc) => {
-          list.push({ id: doc.id, ...doc.data() });
-        });
-        setData(list);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-    return () => {
-      unsub();
-    };
-  }, []);
+const DatatableProjects = () => {
+  const [project, setProject] = useState([]);
+  const { data } = useFetch(
+    "http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/?pageNo=0&pageSize=99&sortBy=id"
+  );
 
   const handleDelete = async (id) => {
     try {
       await deleteDoc(doc(db, "User", id));
-      setData(data.filter((item) => item.id !== id));
+      setProject(project.filter((item) => item.id !== id));
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +30,7 @@ const Datatable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
+            <Link to={"/projects/" + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
@@ -59,21 +44,21 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Add New User
+        Projects Table
         <Link to="/users/new" className="link">
           Add New
         </Link>
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
-        columns={userColumns.concat(actionColumn)}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
+        rows={data?.data ?? []}
+        columns={projectColumns.concat(actionColumn)}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
         checkboxSelection
       />
     </div>
   );
 };
 
-export default Datatable;
+export default DatatableProjects;

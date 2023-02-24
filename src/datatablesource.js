@@ -7,8 +7,8 @@ export const userColumns = [
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params.row.img} alt="avatar" />
-          {params.row.username}
+          <img className="cellImg" src={params.row?.img} alt="avatar" />
+          {params?.row?.username}
         </div>
       );
     },
@@ -29,7 +29,79 @@ export const userColumns = [
     headerName: "Status",
     width: 160,
     renderCell: (params) => {
-      return <div className={`cellWithStatus ${params.row.status}`}>{params.row.status}</div>;
+      return <div className={`cellWithStatus ${params?.row?.status}`}>{params?.row?.status}</div>;
+    },
+  },
+];
+
+export const projectColumns = [
+  { field: "id", headerName: "ID", width: 250 },
+  {
+    field: "project",
+    headerName: "Project Image",
+    width: 230,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img className="cellImg" src={params?.row?.logo} alt="avatar" />
+          {params?.row?.username}
+        </div>
+      );
+    },
+  },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 230,
+  },
+
+  {
+    field: "voteQuantity",
+    headerName: "Vote",
+    width: 100,
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 160,
+    renderCell: (params) => {
+      return <div className={`cellWithStatus ${params?.row?.status}`}>{params?.row?.status}</div>;
+    },
+  },
+];
+
+export const memberColumns = [
+  { field: "id", headerName: "ID", width: 250 },
+  {
+    field: "project",
+    headerName: "Project Image",
+    width: 230,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img className="cellImg" src={params?.row?.logo} alt="avatar" />
+          {params?.row?.username}
+        </div>
+      );
+    },
+  },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 230,
+  },
+
+  {
+    field: "voteQuantity",
+    headerName: "Vote",
+    width: 100,
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 160,
+    renderCell: (params) => {
+      return <div className={`cellWithStatus ${params?.row?.status}`}>{params?.row?.status}</div>;
     },
   },
 ];

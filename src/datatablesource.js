@@ -35,7 +35,7 @@ export const userColumns = [
 ];
 
 export const projectColumns = [
-  { field: "id", headerName: "ID", width: 250 },
+  // { field: "id", headerName: "ID", width: 250 },
   {
     field: "project",
     headerName: "Project Image",
@@ -55,6 +55,11 @@ export const projectColumns = [
     width: 230,
   },
 
+  {
+    field: "summary",
+    headerName: "Summary",
+    width: 300,
+  },
   {
     field: "voteQuantity",
     headerName: "Vote",

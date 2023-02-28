@@ -10,7 +10,7 @@ import useFetch from "../../hooks/useFetch";
 const DatatableProjects = () => {
   const [project, setProject] = useState([]);
   const { data } = useFetch(
-    "http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/?pageNo=0&pageSize=99&sortBy=id"
+    "http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/?pageSize=99"
   );
 
   const handleDelete = async (id) => {
@@ -51,7 +51,7 @@ const DatatableProjects = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={data?.data ?? []}
+        rows={data?.data?.projectDTOList ?? []}
         columns={projectColumns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}

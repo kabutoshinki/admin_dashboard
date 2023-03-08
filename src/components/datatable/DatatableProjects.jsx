@@ -1,22 +1,30 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows, projectColumns } from "../../datatablesource";
+import { projectColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { collection, getDocs, deleteDoc, doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebase";
+import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
-
+import * as projectService from "../../services/projectService";
 const DatatableProjects = () => {
   const [project, setProject] = useState([]);
-  const { data } = useFetch(
-    "http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/?pageSize=99"
+  const { data, reFetch } = useFetch(
+    "http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/?pageSize=99&sortBy=id&statusType=-1"
   );
 
+  const handleAccept = async (id) => {
+    try {
+      console.log(id);
+      await projectService.changeStatus(id, "PUBLIC");
+      reFetch();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, "User", id));
-      setProject(project.filter((item) => item.id !== id));
+      console.log(id);
+      await projectService.changeStatus(id, "REJECTED");
+      reFetch();
     } catch (error) {
       console.log(error);
     }
@@ -33,9 +41,35 @@ const DatatableProjects = () => {
             <Link to={"/projects/" + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
-            <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
-              Delete
-            </div>
+            {/* <button
+              className="acceptButton"
+              onClick={() => handleAccept(params.row.id)}
+              disabled={params.row.status === "PUBLIC"}
+            >
+              Accept
+            </button>
+            <button
+              className="deleteButton"
+              onClick={() => handleDelete(params.row.id)}
+              disabled={params.row.status === "REJECTED"}
+            >
+              Reject
+            </button> */}
+            {params.row.status === "PUBLIC" ? (
+              <div className="acceptButton disabled">Accept</div>
+            ) : (
+              <div className="acceptButton" onClick={() => handleAccept(params.row.id)}>
+                Accept
+              </div>
+            )}
+
+            {params.row.status === "REJECTED" ? (
+              <div className="deleteButton disabled">Reject</div>
+            ) : (
+              <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
+                Reject
+              </div>
+            )}
           </div>
         );
       },
@@ -43,19 +77,14 @@ const DatatableProjects = () => {
   ];
   return (
     <div className="datatable">
-      <div className="datatableTitle">
-        Projects Table
-        <Link to="/users/new" className="link">
-          Add New
-        </Link>
-      </div>
+      <div className="datatableTitle">Projects Table</div>
       <DataGrid
         className="datagrid"
         rows={data?.data?.projectDTOList ?? []}
         columns={projectColumns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        checkboxSelection
+        // checkboxSelection
       />
     </div>
   );

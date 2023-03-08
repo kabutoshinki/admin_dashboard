@@ -8,6 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { DataGrid } from "@mui/x-data-grid";
 import { memberColumns } from "../../datatablesource";
+import logo from "../../images/logo.png";
 const ProjectDetail = () => {
   const param = useParams();
   const { data } = useFetch(
@@ -42,7 +43,7 @@ const ProjectDetail = () => {
             {/* <div className="editButton">Edit</div> */}
             <h1 className="title">Project Information</h1>
             <div className="item">
-              <img src={data.data?.logo} alt="" className="itemImg" />
+              <img src={data.data?.logo || logo} alt="" className="itemImg" />
               <div className="details">
                 <h1 className="itemTitle">{data.data?.name}</h1>
                 <div className="detailItem">
@@ -64,11 +65,11 @@ const ProjectDetail = () => {
           <div className="right">
             <div className="detailItem">
               <h3 className="itemKey">Description:</h3>
-              <p className="itemValue">{data.data?.description}</p>
+              {data?.data?.description}
             </div>
             <div className="detailItem">
               <h3 className="itemKey">Summary:</h3>
-              <p className="itemValue">{data.data?.summary}</p>
+              <p className="itemValue">{data?.data?.summary}</p>
             </div>
             <div className="detailItem">
               <span className="itemKey" style={{ fontWeight: "bold" }}>

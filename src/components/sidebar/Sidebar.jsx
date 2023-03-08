@@ -1,15 +1,9 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import StoreIcon from "@mui/icons-material/Store";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import { Link } from "react-router-dom";
@@ -17,21 +11,24 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import logo from "../../images/logo.png";
 import { auth } from "../../firebase";
-import { signOut } from "firebase/auth";
 import { AuthContext } from "../../context/AuthContext";
+import * as authService from "../../services/authenService";
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
   const { dispatch: dispatchAuth } = useContext(AuthContext);
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("success");
-        dispatchAuth({ type: "LOGOUT" });
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log(error);
-      });
+  const handleLogout = async () => {
+    // signOut(auth)
+    //   .then(() => {
+    //     console.log("success");
+    //     dispatchAuth({ type: "LOGOUT" });
+    //   })
+    //   .catch((error) => {
+    //     // An error happened.
+    //     console.log(error);
+    //   });
+    auth.signOut();
+    await authService.logout();
+    dispatchAuth({ type: "LOGOUT" });
   };
   return (
     <div className="sidebar">

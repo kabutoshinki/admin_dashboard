@@ -1,3 +1,4 @@
+import logo from "../src/images/logo.png";
 export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
   {
@@ -43,7 +44,7 @@ export const projectColumns = [
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params?.row?.logo} alt="avatar" />
+          <img className="cellImg" src={params?.row?.logo || logo} alt="avatar" />
           {params?.row?.username}
         </div>
       );

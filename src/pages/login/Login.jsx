@@ -11,7 +11,7 @@ import { FcGoogle } from "react-icons/fc";
 import { auth } from "../../firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import * as authenService from "../../services/authenService";
-
+import { toast } from "react-toastify";
 const Login = () => {
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
@@ -32,11 +32,11 @@ const Login = () => {
       const user = await authenService.getCurrentUser();
       dispatch({ type: "LOGIN", payload: user.jti });
       // dispatch({ type: "LOGIN_SUCCESS", payload: user.jti });
-      // toast.success("Login Success.");
+      toast.success("Login Success.");
       navigate("/");
     } catch (err) {
-      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
-      // toast.error("Login Fail");
+      dispatch({ type: "LOGIN_FAILURE", payload: err?.response?.data });
+      toast.error("Login Fail");
     }
   };
 

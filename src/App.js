@@ -11,6 +11,8 @@ import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
 import ListProjects from "./pages/list/ListProjects";
 import ProjectDetail from "./pages/project/ProjectDetail";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -23,6 +25,7 @@ function App() {
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
+        <ToastContainer />
         <Routes>
           <Route path="/">
             <Route path="login" element={<Login />} />

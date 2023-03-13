@@ -1,34 +1,33 @@
-import "./datatable.scss";
+import "./membersDatatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { projectColumns } from "../../datatablesource";
+import { changelogColumns, memberColumns, projectColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import * as projectService from "../../services/projectService";
-const DatatableProjects = () => {
-  const [project, setProject] = useState([]);
+import * as projectMemberService from "../../services/projectMemberService";
+const DatatableChangeLog = ({ id }) => {
   const { data, reFetch } = useFetch(
-    "http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/?pageSize=99&sortBy=id&statusType=-1"
+    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/changelog/?projectId=${id}&paging=false`
   );
   console.log(data);
-  const handleAccept = async (id) => {
-    try {
-      console.log(id);
-      await projectService.changeStatus(id, "PUBLIC");
-      reFetch();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleDelete = async (id) => {
-    try {
-      console.log(id);
-      await projectService.changeStatus(id, "REJECTED");
-      reFetch();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //   const handleAccept = async (id) => {
+  //     try {
+  //       console.log(id);
+  //       await projectService.changeStatus(id, "PUBLIC");
+  //       reFetch();
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   const handleDelete = async (id) => {
+  //     try {
+  //       console.log(id);
+  //       await projectService.changeStatus(id, "REJECTED");
+  //       reFetch();
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
   const actionColumn = [
     {
@@ -41,7 +40,7 @@ const DatatableProjects = () => {
             <Link to={"/projects/" + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
-            {params.row.status === "PUBLIC" ? (
+            {/* {params.row.status === "PUBLIC" ? (
               <div className="acceptButton disabled">Accept</div>
             ) : (
               <div className="acceptButton" onClick={() => handleAccept(params.row.id)}>
@@ -55,19 +54,19 @@ const DatatableProjects = () => {
               <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
                 Reject
               </div>
-            )}
+            )} */}
           </div>
         );
       },
     },
   ];
   return (
-    <div className="datatable">
-      <div className="datatableTitle">Projects Table</div>
+    <div className="datatableMember">
+      <div className="datatableTitle">Change Logs</div>
       <DataGrid
         className="datagrid"
-        rows={data?.data?.projectDTOList ?? []}
-        columns={projectColumns.concat(actionColumn)}
+        rows={data?.data ?? []}
+        columns={changelogColumns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}
         // checkboxSelection
@@ -76,4 +75,4 @@ const DatatableProjects = () => {
   );
 };
 
-export default DatatableProjects;
+export default DatatableChangeLog;

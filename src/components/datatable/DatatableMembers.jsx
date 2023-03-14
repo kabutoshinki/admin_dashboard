@@ -38,7 +38,7 @@ const DatatableMembers = ({ id }) => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to={"/projects/" + params.row.id} style={{ textDecoration: "none" }}>
+            <Link to={"/members/" + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             {/* {params.row.status === "PUBLIC" ? (

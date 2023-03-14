@@ -4,30 +4,23 @@ import { changelogColumns, memberColumns, projectColumns } from "../../datatable
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import * as projectMemberService from "../../services/projectMemberService";
+import * as changelogService from "../../services/changeLogService";
+import ModalDelete from "../modal/ModalDelete";
 const DatatableChangeLog = ({ id }) => {
   const { data, reFetch } = useFetch(
     `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/changelog/?projectId=${id}&paging=false`
   );
   console.log(data);
-  //   const handleAccept = async (id) => {
-  //     try {
-  //       console.log(id);
-  //       await projectService.changeStatus(id, "PUBLIC");
-  //       reFetch();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   const handleDelete = async (id) => {
-  //     try {
-  //       console.log(id);
-  //       await projectService.changeStatus(id, "REJECTED");
-  //       reFetch();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  const [open, setOpen] = useState(false);
+  const handleDelete = async (id) => {
+    try {
+      console.log(id);
+      // await changelogService.changeStatus(id, "REJECTED");
+      setOpen(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const actionColumn = [
     {
@@ -37,7 +30,7 @@ const DatatableChangeLog = ({ id }) => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to={"/projects/" + params.row.id} style={{ textDecoration: "none" }}>
+            <Link to={"/changelogs/" + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             {/* {params.row.status === "PUBLIC" ? (
@@ -46,15 +39,11 @@ const DatatableChangeLog = ({ id }) => {
               <div className="acceptButton" onClick={() => handleAccept(params.row.id)}>
                 Accept
               </div>
-            )}
-
-            {params.row.status === "REJECTED" ? (
-              <div className="deleteButton disabled">Reject</div>
-            ) : (
-              <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
-                Reject
-              </div>
             )} */}
+            <ModalDelete open={open} onClose={() => setOpen(false)} id={params?.row?.id} reFresh={reFetch} />
+            <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
+              Delete
+            </div>
           </div>
         );
       },

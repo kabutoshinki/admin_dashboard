@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./single.scss";
-
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import Chart from "../../components/chart/Chart";
-import List from "../../components/table/Table";
 import { Link, useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-import { DataGrid } from "@mui/x-data-grid";
-import { memberColumns } from "../../datatablesource";
 import logo from "../../images/logo.png";
-import * as projectMemberService from "../../services/projectMemberService";
-import DatatableProjects from "../../components/datatable/DatatableProjects";
-import DatatableMembers from "../../components/datatable/DatatableMembers";
-import DatatableChangeLog from "../../components/datatable/DatatableChangeLog";
 
-const ProjectDetail = () => {
+const MemberDetail = () => {
   const param = useParams();
+  console.log(param);
   const { data } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/${param.projectId}`
+    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/member/${param.memberId}`
   );
-
+  console.log(data);
   return (
     <div className="single">
       <Sidebar />
@@ -28,31 +20,26 @@ const ProjectDetail = () => {
         <Navbar />
         <div className="top">
           <div className="left">
-            <h1 className="title">Project Information</h1>
+            <h1 className="title">Member Information</h1>
             <div className="item">
-              <img src={data.data?.logo || logo} alt="" className="itemImg" />
+              <img src={logo} alt="" className="itemImg" />
               <div className="details">
                 <h1 className="itemTitle">{data.data?.name}</h1>
                 <div className="detailItem">
-                  <span className="itemKey">Founder:</span>
-                  <span className="itemValue">{data.data?.founder.email}</span>
+                  <span className="itemKey">Role:</span>
+                  <span className="itemValue">{data.data?.role}</span>
                 </div>
                 <div className="detailItem">
-                  <span className="itemKey">Phone:</span>
-                  <span className="itemValue">+1 2345 67 89</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Mentor:</span>
-
-                  <span className="itemValue">{data.data?.mentor === undefined ? "None" : data.data?.mentor}</span>
+                  <span className="itemKey">Title:</span>
+                  <span className="itemValue">{data?.data?.title}</span>
                 </div>
               </div>
             </div>
           </div>
-          <div className="right">
+          {/* <div className="right">
             <div className="detailItem">
               <h3 className="itemKey">Description:</h3>
-              {/* {data?.data?.description} */}
+             
               <div dangerouslySetInnerHTML={{ __html: data.data?.description }} />
             </div>
             <div className="detailItem">
@@ -72,17 +59,11 @@ const ProjectDetail = () => {
                 <p className="itemValue">{data.data?.name}</p>
               </Link>
             </div>
-          </div>
-        </div>
-        <div className="bottom">
-          <DatatableMembers id={param.projectId} />
-        </div>
-        <div className="bottom">
-          <DatatableChangeLog id={param.projectId} />
+          </div> */}
         </div>
       </div>
     </div>
   );
 };
 
-export default ProjectDetail;
+export default MemberDetail;

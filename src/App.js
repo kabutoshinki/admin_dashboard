@@ -13,6 +13,8 @@ import ListProjects from "./pages/list/ListProjects";
 import ProjectDetail from "./pages/project/ProjectDetail";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MemberDetail from "./pages/members/MemberDetail";
+import ChangeLogDetail from "./pages/changelog/ChangeLogDetail";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -85,6 +87,26 @@ function App() {
                 element={
                   <RequireAuth>
                     <New inputs={productInputs} title="Add New Product" />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+            <Route path="members">
+              <Route
+                path=":memberId"
+                element={
+                  <RequireAuth>
+                    <MemberDetail />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+            <Route path="changelogs">
+              <Route
+                path=":changelogId"
+                element={
+                  <RequireAuth>
+                    <ChangeLogDetail />
                   </RequireAuth>
                 }
               />

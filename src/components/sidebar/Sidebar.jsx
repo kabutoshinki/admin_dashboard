@@ -6,6 +6,8 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
+import TopicIcon from "@mui/icons-material/Topic";
+import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
@@ -59,6 +61,18 @@ const Sidebar = () => {
             <li>
               <NewspaperIcon className="icon" />
               <span>Projects</span>
+            </li>
+          </Link>
+          <Link to="/topics" style={{ textDecoration: "none" }}>
+            <li>
+              <TopicIcon className="icon" />
+              <span>Topics</span>
+            </li>
+          </Link>
+          <Link to="/mentors" style={{ textDecoration: "none" }}>
+            <li>
+              <AssignmentIndOutlinedIcon className="icon" />
+              <span>Mentors</span>
             </li>
           </Link>
           <p className="title">USEFUL</p>

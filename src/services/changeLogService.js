@@ -28,6 +28,10 @@ export async function updateChangeLog(formData) {
   );
 }
 
+export async function deleteChangeLog(id) {
+  return axios.delete(apiEndpoint + `api/v1/changelog/?id=${id}`, options);
+}
+
 export async function getChangeLogs(id) {
   return axios.get(apiEndpoint + `api/v1/changelog/?projectId=${id}`, options);
 }

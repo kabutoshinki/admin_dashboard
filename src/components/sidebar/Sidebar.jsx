@@ -51,12 +51,12 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">LISTS</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
+          {/* <Link to="/users" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
               <span>Users</span>
             </li>
-          </Link>
+          </Link> */}
           <Link to="/projects" style={{ textDecoration: "none" }}>
             <li>
               <NewspaperIcon className="icon" />

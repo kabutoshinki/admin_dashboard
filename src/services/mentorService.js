@@ -3,7 +3,7 @@ import axios from "axios";
 import { async } from "@firebase/util";
 
 const apiEndpoint = config.apiEndpoint;
-console.log("Api: " + apiEndpoint);
+
 let accessToken = localStorage.getItem("Access-Token");
 // Đặt quyền truy cập vào api
 const options = {
@@ -12,8 +12,8 @@ const options = {
   },
 };
 
-export async function getMentors(id, currentPage) {
-  return axios.get(apiEndpoint + `/api/v1/mentor/`, options);
+export async function getMentors() {
+  return axios.get(apiEndpoint + `/api/v1/mentor/?pageNo=0&pageSize=99&sortBy=id`, options);
 }
 
 export async function getMentorById(id) {

@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import * as changelogService from "../../services/changeLogService";
+import * as topicService from "../../services/topicService";
 import { toast } from "react-toastify";
 const style = {
   position: "absolute",
@@ -11,16 +12,21 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
+  bgcolor: "#ffffff",
+  // bgcolor: "background.paper",
+  // border: "2px solid #000",
+  // boxShadow: 24,
   p: 4,
 };
 
-const ModalDelete = ({ open, onClose, id, reFresh }) => {
+const ModalDelete = ({ open, onClose, type, title, id, reFresh }) => {
   const handleDelete = async () => {
     try {
-      await changelogService.deleteChangeLog(id);
+      if (type === "changelog") {
+        await changelogService.deleteChangeLog(id);
+      } else if (type === "topic") {
+        await topicService.deleteTopicById(id);
+      }
       toast.success("Delete Success");
       onClose();
       reFresh();
@@ -39,10 +45,10 @@ const ModalDelete = ({ open, onClose, id, reFresh }) => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Delete Change Log
+            Delete {title}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Are You Sure You Want To Delete This Change Log
+            Are You Sure You Want To Delete This {title}
           </Typography>
           <Button onClick={handleDelete} sx={{ color: "red", marginTop: "10px", fontWeight: "bold", float: "right" }}>
             Delete

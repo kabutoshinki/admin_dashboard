@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 import axios from "axios";
 
 const apiEndpoint = config.apiEndpoint;
-console.log("Api: " + apiEndpoint);
+
 const accessToken = "Access-Token";
 
 export async function login(user) {

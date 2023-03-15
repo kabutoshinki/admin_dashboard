@@ -95,6 +95,18 @@
         cursor: not-allowed;
       }
     }
+    .updateButton {
+      padding: 2px 5px;
+      border-radius: 5px;
+      color: rgb(241, 130, 3);
+      border: 1px dotted rgba(241, 130, 3, 0.6);
+      cursor: pointer;
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
      
   }
 

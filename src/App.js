@@ -11,10 +11,14 @@ import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
 import ListProjects from "./pages/list/ListProjects";
 import ProjectDetail from "./pages/project/ProjectDetail";
+import TopicDetail from "./pages/topic/TopicDetail";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MemberDetail from "./pages/members/MemberDetail";
 import ChangeLogDetail from "./pages/changelog/ChangeLogDetail";
+import ListTopics from "./pages/list/ListTopics";
+import ListMentors from "./pages/list/ListMentors";
+import MentorDetail from "./pages/mentor/MentorDetail";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -107,6 +111,42 @@ function App() {
                 element={
                   <RequireAuth>
                     <ChangeLogDetail />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+            <Route path="topics">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <ListTopics />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":topicId"
+                element={
+                  <RequireAuth>
+                    <TopicDetail />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+            <Route path="mentors">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <ListMentors />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":mentorId"
+                element={
+                  <RequireAuth>
+                    <MentorDetail />
                   </RequireAuth>
                 }
               />

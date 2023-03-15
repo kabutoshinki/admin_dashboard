@@ -40,7 +40,14 @@ const DatatableChangeLog = ({ id }) => {
                 Accept
               </div>
             )} */}
-            <ModalDelete open={open} onClose={() => setOpen(false)} id={params?.row?.id} reFresh={reFetch} />
+            <ModalDelete
+              open={open}
+              onClose={() => setOpen(false)}
+              title={"Change Log"}
+              id={params?.row?.id}
+              type={"changelog"}
+              reFresh={reFetch}
+            />
             <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
               Delete
             </div>

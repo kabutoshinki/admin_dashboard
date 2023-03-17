@@ -40,7 +40,7 @@ export const projectColumns = [
   {
     field: "project",
     headerName: "Project Image",
-    width: 230,
+    width: 200,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -59,7 +59,7 @@ export const projectColumns = [
   {
     field: "summary",
     headerName: "Summary",
-    width: 300,
+    width: 250,
   },
   {
     field: "voteQuantity",
@@ -94,7 +94,7 @@ export const memberColumns = [
   {
     field: "name",
     headerName: "Name",
-    width: 330,
+    width: 300,
   },
   {
     field: "role",
@@ -150,7 +150,7 @@ export const mentorColumns = [
   {
     field: "user_image",
     headerName: "Mentor Image",
-    width: 230,
+    width: 200,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">

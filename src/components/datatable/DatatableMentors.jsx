@@ -4,21 +4,17 @@ import { DataGrid } from "@mui/x-data-grid";
 import { mentorColumns, projectColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import useFetch from "../../hooks/useFetch";
 import * as mentorService from "../../services/mentorService";
 import { Button } from "@mui/material";
 import ModalAddMentor from "../modal/ModalAddMentor";
 const DatatableMentors = () => {
-  // const { data, reFetch } = useFetch(
-  //   "http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/mentor/?pageNo=0&pageSize=99&sortBy=id"
-  // );
-  // console.log(data);
   const [pageSize, setPageSize] = useState(0);
   const [mentors, setMentors] = useState([]);
   const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const Mentors = async () => {
     const { data } = await mentorService.getMentors();
-    console.log(data?.data);
     setMentors(data?.data?.mentorDTOList);
     setPageSize(data?.data?.noOfPages);
   };
@@ -58,14 +54,44 @@ const DatatableMentors = () => {
         Mentors Table
         <Button onClick={() => handleAdd()}>Add Mentor</Button>
       </div>
-      <DataGrid
+      {/* <DataGrid
         className="datagrid"
         rows={mentors ?? []}
         columns={mentorColumns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}
         // checkboxSelection
+      /> */}
+      <input
+        type="text"
+        placeholder="Search mentors..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        style={{
+          padding: "5px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+          fontSize: "16px",
+          width: "100%",
+          maxWidth: "400px",
+          boxSizing: "border-box",
+          marginBottom: "20px",
+        }}
       />
+      <DataGrid
+        className="datagrid"
+        rows={
+          mentors?.filter(
+            (mentor) =>
+              mentor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              mentor.email.toLowerCase().includes(searchQuery.toLowerCase())
+          ) ?? []
+        }
+        columns={mentorColumns.concat(actionColumn)}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+      />
+
       <ModalAddMentor open={open} onClose={() => setOpen(false)} reFresh={handleSuccess} />
     </div>
   );

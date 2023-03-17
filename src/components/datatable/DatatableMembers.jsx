@@ -1,35 +1,20 @@
 import "./membersDatatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { memberColumns, projectColumns } from "../../datatablesource";
+import { memberColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import * as projectMemberService from "../../services/projectMemberService";
+
 const DatatableMembers = ({ id }) => {
-  const [project, setProject] = useState([]);
+  const [members, setMembers] = useState([]);
   const { data, reFetch } = useFetch(
     `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/${id}`
   );
-  console.log(data);
-  //   const handleAccept = async (id) => {
-  //     try {
-  //       console.log(id);
-  //       await projectService.changeStatus(id, "PUBLIC");
-  //       reFetch();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   const handleDelete = async (id) => {
-  //     try {
-  //       console.log(id);
-  //       await projectService.changeStatus(id, "REJECTED");
-  //       reFetch();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  const [searchQuery, setSearchQuery] = useState("");
 
+  useEffect(() => {
+    setMembers(data?.data?.members);
+  }, [data]);
   const actionColumn = [
     {
       field: "action",
@@ -41,21 +26,6 @@ const DatatableMembers = ({ id }) => {
             <Link to={"/members/" + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
-            {/* {params.row.status === "PUBLIC" ? (
-              <div className="acceptButton disabled">Accept</div>
-            ) : (
-              <div className="acceptButton" onClick={() => handleAccept(params.row.id)}>
-                Accept
-              </div>
-            )}
-
-            {params.row.status === "REJECTED" ? (
-              <div className="deleteButton disabled">Reject</div>
-            ) : (
-              <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
-                Reject
-              </div>
-            )} */}
           </div>
         );
       },
@@ -64,9 +34,25 @@ const DatatableMembers = ({ id }) => {
   return (
     <div className="datatableMember">
       <div className="datatableTitle">Members</div>
+      <input
+        type="text"
+        placeholder="Search members..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        style={{
+          padding: "5px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+          fontSize: "16px",
+          width: "100%",
+          maxWidth: "400px",
+          boxSizing: "border-box",
+          marginBottom: "20px",
+        }}
+      />
       <DataGrid
         className="datagrid"
-        rows={data?.data?.members ?? []}
+        rows={members?.filter((member) => member.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
         columns={memberColumns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}

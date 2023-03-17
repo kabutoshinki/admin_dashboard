@@ -17,6 +17,7 @@ const DatatableTopics = () => {
   const [id, setId] = useState();
   const [topics, setTopics] = useState([]);
   const [topic, setTopic] = useState({});
+  const [searchQuery, setSearchQuery] = useState("");
 
   const Topics = async () => {
     const { data } = await topicService.getTopics();
@@ -80,9 +81,31 @@ const DatatableTopics = () => {
         Topics Table
         <Button onClick={() => handleAdd()}>Add Topic</Button>
       </div>
+      <input
+        type="text"
+        placeholder="Search topics..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        style={{
+          padding: "5px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+          fontSize: "16px",
+          width: "100%",
+          maxWidth: "400px",
+          boxSizing: "border-box",
+          marginBottom: "20px",
+        }}
+      />
       <DataGrid
         className="datagrid"
-        rows={topics?.topicDTOList ?? []}
+        rows={
+          topics?.topicDTOList?.filter(
+            (topic) =>
+              topic?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              topic?.shortName.toLowerCase().includes(searchQuery.toLowerCase())
+          ) ?? []
+        }
         columns={topicColumns.concat(actionColumn)}
         // pageSize={data?.data?.noOfPages}
         pageSize={5}

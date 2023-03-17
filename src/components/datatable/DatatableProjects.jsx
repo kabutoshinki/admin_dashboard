@@ -2,15 +2,21 @@ import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { projectColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import * as projectService from "../../services/projectService";
 const DatatableProjects = () => {
-  const [project, setProject] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const { data, reFetch } = useFetch(
     "http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/?pageSize=99&sortBy=id&statusType=-1"
   );
   console.log(data);
+
+  useEffect(() => {
+    setProjects(data?.data?.projectDTOList);
+  }, [data]);
+
   const handleAccept = async (id) => {
     try {
       console.log(id);
@@ -64,9 +70,27 @@ const DatatableProjects = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">Projects Table</div>
+
+      <input
+        type="text"
+        placeholder="Search projects..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        style={{
+          padding: "5px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+          fontSize: "16px",
+          width: "100%",
+          maxWidth: "400px",
+          boxSizing: "border-box",
+          marginBottom: "20px",
+        }}
+      />
+
       <DataGrid
         className="datagrid"
-        rows={data?.data?.projectDTOList ?? []}
+        rows={projects?.filter((project) => project?.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
         columns={projectColumns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}

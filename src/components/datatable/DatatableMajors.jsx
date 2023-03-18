@@ -1,34 +1,34 @@
 import React, { useEffect } from "react";
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { projectColumns, topicColumns } from "../../datatablesource";
+import { majorColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import useFetch from "../../hooks/useFetch";
+import * as majorService from "../../services/majorService";
 import { Button } from "@mui/material";
-import ModalAddTopic from "../modal/ModalAddTopic";
+import ModalAddMajor from "../modal/ModalAddMajor";
 import ModalDelete from "../modal/ModalDelete";
-import ModalUpdateTopic from "../modal/ModalUpdateTopic";
-import * as topicService from "../../services/topicService";
-const DatatableTopics = () => {
+import ModalUpdateMajor from "../modal/ModalUpdateMajor";
+const DatatableMajors = () => {
+  const [majors, setMajors] = useState([]);
   const [open, setOpen] = useState(false);
   const [openModalDel, setOpenModalDel] = useState(false);
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
-  const [id, setId] = useState();
-  const [topics, setTopics] = useState([]);
-  const [topic, setTopic] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
+  const [major, setMajor] = useState();
+  const [id, setId] = useState();
 
-  const Topics = async () => {
-    const { data } = await topicService.getTopics();
-    setTopics(data?.data);
+  const Majors = async () => {
+    const { data } = await majorService.getMajors();
+    setMajors(data?.data?.majorDTOList);
   };
 
   const handleSuccess = () => {
-    Topics();
+    Majors();
   };
+
   useEffect(() => {
-    Topics();
+    Majors();
   }, []);
 
   const handleDelete = async (id) => {
@@ -42,7 +42,7 @@ const DatatableTopics = () => {
   };
   const handleUpdate = (row) => {
     try {
-      setTopic(row);
+      setMajor(row);
       setOpenModalUpdate(true);
     } catch (error) {
       console.log(error);
@@ -53,14 +53,13 @@ const DatatableTopics = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 300,
+      width: 200,
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to={"/topics/" + params.row.id} style={{ textDecoration: "none" }}>
+            <Link to={"/majors/" + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
-
             <div className="updateButton" onClick={() => handleUpdate(params?.row)}>
               Update
             </div>
@@ -72,18 +71,21 @@ const DatatableTopics = () => {
       },
     },
   ];
+
   const handleAdd = () => {
     setOpen(true);
   };
+
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Topics Table
-        <Button onClick={() => handleAdd()}>Add Topic</Button>
+        Majors Table
+        <Button onClick={() => handleAdd()}>Add Major</Button>
       </div>
+
       <input
         type="text"
-        placeholder="Search topics..."
+        placeholder="Search majors..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         style={{
@@ -99,38 +101,31 @@ const DatatableTopics = () => {
       />
       <DataGrid
         className="datagrid"
-        rows={
-          topics?.topicDTOList?.filter(
-            (topic) =>
-              topic?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              topic?.shortName.toLowerCase().includes(searchQuery.toLowerCase())
-          ) ?? []
-        }
-        columns={topicColumns.concat(actionColumn)}
-        // pageSize={data?.data?.noOfPages}
+        rows={majors?.filter((major) => major.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
+        columns={majorColumns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        // checkboxSelection
       />
-      <ModalAddTopic open={open} onClose={() => setOpen(false)} reFresh={handleSuccess} />
 
-      <ModalUpdateTopic
+      <ModalAddMajor open={open} onClose={() => setOpen(false)} reFresh={handleSuccess} />
+
+      <ModalUpdateMajor
         open={openModalUpdate}
         onClose={() => setOpenModalUpdate(false)}
         reFresh={handleSuccess}
-        data={topic}
+        data={major}
       />
 
       <ModalDelete
         open={openModalDel}
         onClose={() => setOpenModalDel(false)}
-        title={"Topic"}
+        title={"Major"}
         id={id}
-        type={"topic"}
+        type={"major"}
         reFresh={handleSuccess}
       />
     </div>
   );
 };
 
-export default DatatableTopics;
+export default DatatableMajors;

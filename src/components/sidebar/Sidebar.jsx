@@ -7,6 +7,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import TopicIcon from "@mui/icons-material/Topic";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
+import SchoolIcon from "@mui/icons-material/School";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
@@ -72,6 +73,12 @@ const Sidebar = () => {
             <li>
               <AssignmentIndOutlinedIcon className="icon" />
               <span>Mentors</span>
+            </li>
+          </Link>
+          <Link to="/majors" style={{ textDecoration: "none" }}>
+            <li>
+              <SchoolIcon className="icon" />
+              <span>Majors</span>
             </li>
           </Link>
           <p className="title">USEFUL</p>

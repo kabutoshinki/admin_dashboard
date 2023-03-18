@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import * as changelogService from "../../services/changeLogService";
 import { toast } from "react-toastify";
-import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import * as majorService from "../../services/majorService";
-import * as mentorService from "../../services/mentorService";
 const style = {
   position: "absolute",
   top: "50%",
@@ -19,25 +19,13 @@ const style = {
   p: 4,
 };
 
-const ModalAddMentor = ({ open, onClose, reFresh }) => {
+const ModalAddMajor = ({ open, onClose, reFresh }) => {
   const initData = {
     name: "",
-    major: "",
-    email: "",
-    phone: "",
+    description: "",
   };
 
   const [formData, setFormData] = useState(initData);
-  const [majors, setMajors] = useState([]);
-
-  const Majors = async () => {
-    const { data } = await majorService.getMajors();
-    setMajors(data?.data?.majorDTOList);
-  };
-
-  useEffect(() => {
-    Majors();
-  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -47,10 +35,9 @@ const ModalAddMentor = ({ open, onClose, reFresh }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await mentorService.addMentor(formData);
+      await majorService.addMajor(formData);
       toast.success("Add Success");
       onClose();
-      setFormData({});
       reFresh();
     } catch (error) {
       toast.error("Add Fail");
@@ -77,7 +64,7 @@ const ModalAddMentor = ({ open, onClose, reFresh }) => {
             }}
           >
             <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>
-              Add Mentor
+              Add Major
             </Typography>
 
             <TextField
@@ -88,45 +75,11 @@ const ModalAddMentor = ({ open, onClose, reFresh }) => {
               onChange={handleInputChange}
               required
             />
-            {/* <TextField
-              label="major"
-              sx={{ mb: 3, width: "100%" }}
-              name="major"
-              value={formData.major}
-              onChange={handleInputChange}
-              required
-            /> */}
-
-            <FormControl sx={{ mb: 3, width: "100%" }}>
-              <InputLabel htmlFor="major-select" inputProps={{ id: "major-select" }}>
-                Major
-              </InputLabel>
-              <Select label="major" name="major" value={formData.major || ""} onChange={handleInputChange} required>
-                <MenuItem disabled value="">
-                  Select a major
-                </MenuItem>
-                {majors.map((major) => (
-                  <MenuItem key={major.id} value={major.name}>
-                    {major.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
             <TextField
-              label="email"
-              type={"email"}
+              label="description"
               sx={{ mb: 3, width: "100%" }}
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-            />
-            <TextField
-              label="phone"
-              sx={{ mb: 3, width: "100%" }}
-              name="phone"
-              value={formData.phone}
+              name="description"
+              value={formData.description}
               onChange={handleInputChange}
               required
             />
@@ -152,4 +105,4 @@ const ModalAddMentor = ({ open, onClose, reFresh }) => {
   );
 };
 
-export default ModalAddMentor;
+export default ModalAddMajor;

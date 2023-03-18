@@ -180,3 +180,17 @@ export const mentorColumns = [
     width: 200,
   },
 ];
+
+export const majorColumns = [
+  // { field: "id", headerName: "ID", width: 250 },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 300,
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    width: 700,
+  },
+];

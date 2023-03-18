@@ -19,6 +19,8 @@ import ChangeLogDetail from "./pages/changelog/ChangeLogDetail";
 import ListTopics from "./pages/list/ListTopics";
 import ListMentors from "./pages/list/ListMentors";
 import MentorDetail from "./pages/mentor/MentorDetail";
+import ListMajors from "./pages/list/ListMajors";
+import MajorDetail from "./pages/major/MentorDetail";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -147,6 +149,24 @@ function App() {
                 element={
                   <RequireAuth>
                     <MentorDetail />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+            <Route path="majors">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <ListMajors />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":majorId"
+                element={
+                  <RequireAuth>
+                    <MajorDetail />
                   </RequireAuth>
                 }
               />

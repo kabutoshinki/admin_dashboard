@@ -9,12 +9,12 @@ const DatatableProjects = () => {
   const [projects, setProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { data, reFetch } = useFetch(
-    "http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/?pageSize=99&sortBy=id&statusType=-1"
+    "http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/projects/?pageSize=99&sortBy=id&statusType=-1"
   );
   console.log(data);
 
   useEffect(() => {
-    setProjects(data?.data?.projectDTOList);
+    setProjects(data?.data?.projectDTOWithTopicList);
   }, [data]);
 
   const handleAccept = async (id) => {

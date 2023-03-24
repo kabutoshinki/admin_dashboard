@@ -9,8 +9,9 @@ import { Button } from "@mui/material";
 
 const DatatableJobs = ({ id }) => {
   const [jobs, setJobs] = useState([]);
+
   const { data, reFetch } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/job/${id}/`
+    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/jobs/${id}/`
   );
 
   const [searchQuery, setSearchQuery] = useState("");

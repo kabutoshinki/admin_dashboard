@@ -13,21 +13,21 @@ const options = {
 };
 
 export async function getMembersProject(id) {
-  return axios.get(apiEndpoint + `/api/v1/member/?projectId=${id}`, options);
+  return axios.get(apiEndpoint + `/api/v1/members/?projectId=${id}`, options);
 }
 
 export async function getMemberProjectById(id) {
-  return axios.get(apiEndpoint + `/api/v1/member/${id}`, options);
+  return axios.get(apiEndpoint + `/api/v1/members/${id}`, options);
 }
 
 export async function createMemberProject(formData) {
-  return axios.post(apiEndpoint + `/api/v1/member/`, formData, options);
+  return axios.post(apiEndpoint + `/api/v1/members/`, formData, options);
 }
 
 export async function updateMemberProject(formData) {
-  return axios.put(apiEndpoint + `/api/v1/member/`, formData, options);
+  return axios.put(apiEndpoint + `/api/v1/members/`, formData, options);
 }
 
 export async function deleteMemberProjectById(id) {
-  return axios.delete(apiEndpoint + `/api/v1/member/${id}`, options);
+  return axios.delete(apiEndpoint + `/api/v1/members/${id}`, options);
 }

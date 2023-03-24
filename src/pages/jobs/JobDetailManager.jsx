@@ -12,7 +12,7 @@ import DatatableUserApply from "../../components/datatable/DatatableUserApply";
 const JobDetailManager = () => {
   const param = useParams();
   const { data } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/job/${param.jobId}/detail`
+    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/jobs/${param.jobId}/detail`
   );
   console.log(data);
   return (
@@ -20,7 +20,7 @@ const JobDetailManager = () => {
       <Sidebar />
       <div className="singleContainer">
         <Navbar />
-        <div className="top" style={{ marginTop: "80px" }}>
+        <div className="top">
           <div className="left">
             <h1 className="title">Job Information</h1>
             <div className="item">

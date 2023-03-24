@@ -17,15 +17,15 @@ export async function getJobs() {
 }
 
 export async function getJobsByProjectId(id) {
-  return axios.get(apiEndpoint + `api/v1/job/${id}/`, options);
+  return axios.get(apiEndpoint + `api/v1/jobs/${id}/`, options);
 }
 export async function deleteJobById(id) {
-  return axios.delete(apiEndpoint + `api/v1/job/${id}`, options);
+  return axios.delete(apiEndpoint + `api/v1/jobs/${id}`, options);
 }
 
 export async function updateJobById(formData) {
   return axios.put(
-    apiEndpoint + `api/v1/job/?id=${formData.id}&name=${formData.name}&description=${formData.description}`,
+    apiEndpoint + `api/v1/jobs/?id=${formData.id}&name=${formData.name}&description=${formData.description}`,
     formData,
     options
   );

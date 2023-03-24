@@ -12,5 +12,5 @@ const options = {
 };
 
 export async function findUserById(id) {
-  return axios.get(apiEndpoint + `/api/v1/user/{id}?id=${id}`, options);
+  return axios.get(apiEndpoint + `/api/v1/users/{id}?id=${id}`, options);
 }

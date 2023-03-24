@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./single.scss";
 
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import Chart from "../../components/chart/Chart";
-import List from "../../components/table/Table";
 import { Link, useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-import { DataGrid } from "@mui/x-data-grid";
-import { memberColumns } from "../../datatablesource";
 import logo from "../../images/logo.png";
-import * as projectMemberService from "../../services/projectMemberService";
-import DatatableProjects from "../../components/datatable/DatatableProjects";
 import DatatableMembers from "../../components/datatable/DatatableMembers";
 import DatatableChangeLog from "../../components/datatable/DatatableChangeLog";
 import DatatableMentorsProject from "../../components/datatable/DatatableMentorsProject";
@@ -20,7 +14,7 @@ import DatatableJobs from "../../components/datatable/DatatableJobs";
 const ProjectDetail = () => {
   const param = useParams();
   const { data } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/${param.projectId}`
+    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/projects/${param.projectId}`
   );
 
   return (
@@ -55,7 +49,7 @@ const ProjectDetail = () => {
             <div className="detailItem">
               <h3 className="itemKey">Description:</h3>
               {/* {data?.data?.description} */}
-              <div dangerouslySetInnerHTML={{ __html: data.data?.description }} />
+              <div dangerouslySetInnerHTML={{ __html: data?.data?.description }} />
             </div>
             <div className="detailItem">
               <h3 className="itemKey">Summary:</h3>
@@ -66,27 +60,27 @@ const ProjectDetail = () => {
                 Vote:
               </span>
 
-              <span className="itemValue"> {data.data?.voteQuantity}</span>
+              <span className="itemValue"> {data?.data?.voteQuantity}</span>
             </div>
             <div className="detailItem">
               <h3 className="itemKey">Source:</h3>
-              <Link to={data.data?.source}>
-                <p className="itemValue">{data.data?.name}</p>
+              <Link to={data?.data?.source}>
+                <p className="itemValue">{data?.data?.name}</p>
               </Link>
             </div>
           </div>
         </div>
         <div className="bottom">
-          <DatatableMembers id={param.projectId} />
+          <DatatableMembers id={param?.projectId} />
         </div>
         <div className="bottom">
-          <DatatableChangeLog id={param.projectId} />
+          <DatatableChangeLog id={param?.projectId} />
         </div>
         <div className="bottom">
-          <DatatableMentorsProject id={param.projectId} />
+          <DatatableMentorsProject id={param?.projectId} />
         </div>
         <div className="bottom">
-          <DatatableJobs id={param.projectId} />
+          <DatatableJobs id={param?.projectId} />
         </div>
       </div>
     </div>

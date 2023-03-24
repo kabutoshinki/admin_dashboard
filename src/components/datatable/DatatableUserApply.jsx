@@ -8,7 +8,7 @@ import useFetch from "../../hooks/useFetch";
 const DatatableUserApply = ({ id }) => {
   const [users, setUsers] = useState([]);
   const { data, reFetch } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/job/user/?jobId=${id}&pageNo=0&pageSize=99&sortBy=id&ascending=ASC`
+    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/jobs/user/?jobId=${id}&pageNo=0&pageSize=99&sortBy=id&ascending=ASC`
   );
   console.log(data);
   const [openDel, setOpenDel] = useState(false);
@@ -76,7 +76,7 @@ const DatatableUserApply = ({ id }) => {
       />
       <DataGrid
         className="datagrid"
-        rows={users ?? []}
+        rows={users?.filter((user) => user?.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
         columns={userApplyColumns}
         pageSize={5}
         rowsPerPageOptions={[5]}

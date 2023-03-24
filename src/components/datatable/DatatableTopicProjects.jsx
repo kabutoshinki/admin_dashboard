@@ -12,7 +12,7 @@ const DatatableTopicProjects = ({ id }) => {
   const [openModalDel, setOpenModalDel] = useState(false);
   const [idDel, setIdDel] = useState();
   const { data, reFetch } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/topic/${id}/projects?pageNo=0&pageSize=99&sortBy=id&ascending=ASC`
+    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/topics/${id}/projects?pageNo=0&pageSize=99&sortBy=id&ascending=ASC`
   );
   useEffect(() => {
     setProjects(data?.data);

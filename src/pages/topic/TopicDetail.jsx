@@ -6,13 +6,22 @@ import { Link, useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import logo from "../../images/logo.png";
 import DatatableTopicProjects from "../../components/datatable/DatatableTopicProjects";
-
+import * as topicService from "../../services/topicService";
 const TopicDetail = () => {
   const param = useParams();
-  const { data } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/topic/${param.topicId}`
-  );
-  console.log(data);
+
+  const [topic, setTopic] = useState({});
+  const Topic = async () => {
+    const { data } = await topicService.getTopicDetail(param.topicId);
+    setTopic(data?.data);
+  };
+  useEffect(() => {
+    Topic();
+  }, []);
+  // const { data } = useFetch(
+  //   `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/topics/${param.topicId}`
+  // );
+  // console.log(data);
   return (
     <div className="single">
       <Sidebar />
@@ -24,10 +33,10 @@ const TopicDetail = () => {
             <div className="item">
               <img src={logo} alt="" className="itemImg" />
               <div className="details">
-                <h1 className="itemTitle">{data?.data?.name}</h1>
+                <h1 className="itemTitle">{topic?.name}</h1>
                 <div className="detailItem">
                   <span className="itemKey">Short Name:</span>
-                  <span className="itemValue">{data?.data?.shortName}</span>
+                  <span className="itemValue">{topic?.shortName}</span>
                 </div>
               </div>
             </div>
@@ -35,7 +44,7 @@ const TopicDetail = () => {
           <div className="right">
             <div className="detailItem">
               <h3 className="itemKey">Description:</h3>
-              {data?.data?.description}
+              {topic?.description}
             </div>
           </div>
         </div>

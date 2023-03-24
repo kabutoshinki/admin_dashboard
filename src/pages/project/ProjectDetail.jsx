@@ -14,6 +14,8 @@ import * as projectMemberService from "../../services/projectMemberService";
 import DatatableProjects from "../../components/datatable/DatatableProjects";
 import DatatableMembers from "../../components/datatable/DatatableMembers";
 import DatatableChangeLog from "../../components/datatable/DatatableChangeLog";
+import DatatableMentorsProject from "../../components/datatable/DatatableMentorsProject";
+import DatatableJobs from "../../components/datatable/DatatableJobs";
 
 const ProjectDetail = () => {
   const param = useParams();
@@ -79,6 +81,12 @@ const ProjectDetail = () => {
         </div>
         <div className="bottom">
           <DatatableChangeLog id={param.projectId} />
+        </div>
+        <div className="bottom">
+          <DatatableMentorsProject id={param.projectId} />
+        </div>
+        <div className="bottom">
+          <DatatableJobs id={param.projectId} />
         </div>
       </div>
     </div>

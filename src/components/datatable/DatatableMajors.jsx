@@ -57,9 +57,6 @@ const DatatableMajors = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to={"/majors/" + params.row.id} style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
             <div className="updateButton" onClick={() => handleUpdate(params?.row)}>
               Update
             </div>

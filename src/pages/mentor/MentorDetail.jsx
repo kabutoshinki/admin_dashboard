@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import logo from "../../images/logo.png";
 import * as mentorService from "../../services/mentorService";
+import DatatableProjectsByMentorId from "../../components/datatable/DatatableProjectByMentorId";
 const MentorDetail = () => {
   const param = useParams();
 
@@ -62,6 +63,9 @@ const MentorDetail = () => {
               <span className="itemValue">{mentor?.phone}</span>
             </div>
           </div> */}
+        </div>
+        <div className="bottom">
+          <DatatableProjectsByMentorId id={param.mentorId} />
         </div>
       </div>
     </div>

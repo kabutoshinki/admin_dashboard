@@ -1,20 +1,26 @@
+import React, { useEffect } from "react";
 import "./membersDatatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { memberColumns } from "../../datatablesource";
+import { mentorColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch";
+import { useState } from "react";
+import * as mentorService from "../../services/mentorService";
 
-const DatatableMembers = ({ id }) => {
-  const [members, setMembers] = useState([]);
-  const { data, reFetch } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/${id}`
-  );
+const DatatableMentorsProject = ({ id }) => {
+  const [mentors, setMentors] = useState([]);
+
   const [searchQuery, setSearchQuery] = useState("");
 
+  const Mentors = async () => {
+    const { data } = await mentorService.getListMentorsById(id);
+    console.log(data);
+    setMentors(data?.data);
+  };
+
   useEffect(() => {
-    setMembers(data?.data?.members);
-  }, [data]);
+    Mentors();
+  }, []);
+
   const actionColumn = [
     {
       field: "action",
@@ -23,20 +29,22 @@ const DatatableMembers = ({ id }) => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {/* <Link to={"/members/" + params.row.id} style={{ textDecoration: "none" }}>
+            <Link to={"/mentors/" + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
-            </Link> */}
+            </Link>
           </div>
         );
       },
     },
   ];
+
   return (
     <div className="datatableMember">
-      <div className="datatableTitle">Members</div>
+      <div className="datatableTitle">Mentors</div>
+
       <input
         type="text"
-        placeholder="Search members..."
+        placeholder="Search mentors..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         style={{
@@ -52,14 +60,19 @@ const DatatableMembers = ({ id }) => {
       />
       <DataGrid
         className="datagrid"
-        rows={members?.filter((member) => member.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
-        columns={memberColumns}
+        rows={
+          mentors?.filter(
+            (mentor) =>
+              mentor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              mentor.email.toLowerCase().includes(searchQuery.toLowerCase())
+          ) ?? []
+        }
+        columns={mentorColumns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        // checkboxSelection
       />
     </div>
   );
 };
 
-export default DatatableMembers;
+export default DatatableMentorsProject;

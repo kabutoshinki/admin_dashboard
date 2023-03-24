@@ -21,6 +21,7 @@ import ListMentors from "./pages/list/ListMentors";
 import MentorDetail from "./pages/mentor/MentorDetail";
 import ListMajors from "./pages/list/ListMajors";
 import MajorDetail from "./pages/major/MentorDetail";
+import JobDetailManager from "./pages/jobs/JobDetailManager";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -167,6 +168,24 @@ function App() {
                 element={
                   <RequireAuth>
                     <MajorDetail />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+            <Route path="jobs">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <ListMajors />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":jobId"
+                element={
+                  <RequireAuth>
+                    <JobDetailManager />
                   </RequireAuth>
                 }
               />

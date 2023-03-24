@@ -6,6 +6,7 @@ import Modal from "@mui/material/Modal";
 import * as changelogService from "../../services/changeLogService";
 import * as topicService from "../../services/topicService";
 import * as majorService from "../../services/majorService";
+import * as mentorService from "../../services/mentorService";
 import { toast } from "react-toastify";
 const style = {
   position: "absolute",
@@ -29,6 +30,8 @@ const ModalDelete = ({ open, onClose, type, title, id, reFresh }) => {
         await topicService.deleteTopicById(id);
       } else if (type === "major") {
         await majorService.deleteMajorById(id);
+      } else if (type === "mentor") {
+        await mentorService.deleteMentorById(id);
       }
       toast.success("Delete Success");
       onClose();

@@ -47,7 +47,15 @@
       background-color: rgba(0, 128, 0, 0.05);
       color: green;
     }
+    &.ACCEPTED {
+      background-color: rgba(0, 128, 0, 0.05);
+      color: green;
+    }
     &.PRIVATE {
+      background-color: rgba(255, 217, 0, 0.05);
+      color: goldenrod;
+    }
+    &.PENDING {
       background-color: rgba(255, 217, 0, 0.05);
       color: goldenrod;
     }
@@ -96,6 +104,18 @@
       }
     }
      
+    .updateButton {
+      padding: 2px 5px;
+      border-radius: 5px;
+      color: rgb(241, 130, 3);
+      border: 1px dotted rgba(241, 130, 3, 0.6);
+      cursor: pointer;
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
   }
 
  

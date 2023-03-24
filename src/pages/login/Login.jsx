@@ -48,6 +48,7 @@ const Login = () => {
         const user = userCredential.user;
         dispatch({ type: "LOGIN", payload: user });
         navigate("/");
+        window.location.reload();
       })
       .catch((error) => {
         setError(true);

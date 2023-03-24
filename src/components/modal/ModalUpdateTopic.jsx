@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-const ModalUpdateTopic = ({ open, onClose, topic, reFresh }) => {
+const ModalUpdateTopic = ({ open, onClose, data, reFresh }) => {
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -28,15 +28,15 @@ const ModalUpdateTopic = ({ open, onClose, topic, reFresh }) => {
   });
 
   useEffect(() => {
-    if (topic) {
+    if (data) {
       setFormData({
-        id: topic.id || "",
-        name: topic.name || "",
-        description: topic.description || "",
-        shortName: topic.shortName || "",
+        id: data.id || "",
+        name: data.name || "",
+        description: data.description || "",
+        shortName: data.shortName || "",
       });
     }
-  }, [topic]);
+  }, [data]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

@@ -1,19 +1,22 @@
 import "./membersDatatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { memberColumns } from "../../datatablesource";
+import { jobColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import * as jobService from "../../services/jobService";
+import { Button } from "@mui/material";
 
-const DatatableMembers = ({ id }) => {
-  const [members, setMembers] = useState([]);
+const DatatableJobs = ({ id }) => {
+  const [jobs, setJobs] = useState([]);
   const { data, reFetch } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/${id}`
+    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/job/${id}/`
   );
+
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    setMembers(data?.data?.members);
+    setJobs(data?.data);
   }, [data]);
   const actionColumn = [
     {
@@ -23,20 +26,21 @@ const DatatableMembers = ({ id }) => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {/* <Link to={"/members/" + params.row.id} style={{ textDecoration: "none" }}>
+            <Link to={`/jobs/` + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
-            </Link> */}
+            </Link>
           </div>
         );
       },
     },
   ];
+
   return (
     <div className="datatableMember">
-      <div className="datatableTitle">Members</div>
+      <div className="datatableTitle">Jobs</div>
       <input
         type="text"
-        placeholder="Search members..."
+        placeholder="Search Jobs..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         style={{
@@ -52,8 +56,8 @@ const DatatableMembers = ({ id }) => {
       />
       <DataGrid
         className="datagrid"
-        rows={members?.filter((member) => member.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
-        columns={memberColumns}
+        rows={jobs?.filter((member) => member.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
+        columns={jobColumns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}
         // checkboxSelection
@@ -62,4 +66,4 @@ const DatatableMembers = ({ id }) => {
   );
 };
 
-export default DatatableMembers;
+export default DatatableJobs;

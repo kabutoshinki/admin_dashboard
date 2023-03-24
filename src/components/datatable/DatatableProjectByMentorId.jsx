@@ -1,32 +1,24 @@
+import React, { useEffect } from "react";
 import "./membersDatatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { memberColumns, projectColumns } from "../../datatablesource";
+import { projectColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch";
-import * as projectMemberService from "../../services/projectMemberService";
+import { useState } from "react";
+import * as mentorService from "../../services/mentorService";
 
-const DatatableTopicProjects = ({ id }) => {
+const DatatableProjectsByMentorId = ({ id }) => {
   const [projects, setProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [openModalDel, setOpenModalDel] = useState(false);
-  const [idDel, setIdDel] = useState();
-  const { data, reFetch } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/topic/${id}/projects?pageNo=0&pageSize=99&sortBy=id&ascending=ASC`
-  );
-  useEffect(() => {
-    setProjects(data?.data);
-  }, [data]);
 
-  const handleDelete = async (id) => {
-    try {
-      console.log(id);
-      setIdDel(id);
-      setOpenModalDel(true);
-    } catch (error) {
-      console.log(error);
-    }
+  const Projects = async () => {
+    const { data } = await mentorService.getProjectsByMentorId(id);
+    console.log(data);
+    setProjects(data?.data);
   };
+
+  useEffect(() => {
+    Projects();
+  }, []);
 
   const actionColumn = [
     {
@@ -39,14 +31,12 @@ const DatatableTopicProjects = ({ id }) => {
             <Link to={"/projects/" + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
-            {/* <div className="deleteButton" onClick={() => handleDelete(params?.row?.id)}>
-              Delete
-            </div> */}
           </div>
         );
       },
     },
   ];
+
   return (
     <div className="datatableMember">
       <div className="datatableTitle">Projects</div>
@@ -67,17 +57,15 @@ const DatatableTopicProjects = ({ id }) => {
           marginBottom: "20px",
         }}
       />
-
       <DataGrid
         className="datagrid"
-        rows={projects?.filter((project) => project?.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
+        rows={projects?.filter((project) => project.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
         columns={projectColumns.concat(actionColumn)}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        // checkboxSelection
       />
     </div>
   );
 };
 
-export default DatatableTopicProjects;
+export default DatatableProjectsByMentorId;

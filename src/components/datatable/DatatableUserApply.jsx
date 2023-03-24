@@ -1,19 +1,24 @@
 import "./membersDatatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { memberColumns } from "../../datatablesource";
+import { userApplyColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 
-const DatatableMembers = ({ id }) => {
-  const [members, setMembers] = useState([]);
+const DatatableUserApply = ({ id }) => {
+  const [users, setUsers] = useState([]);
   const { data, reFetch } = useFetch(
-    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/project/${id}`
+    `http://fhunt-env.eba-pr2amuxm.ap-southeast-1.elasticbeanstalk.com/api/v1/job/user/?jobId=${id}&pageNo=0&pageSize=99&sortBy=id&ascending=ASC`
   );
+  console.log(data);
+  const [openDel, setOpenDel] = useState(false);
+  const [openModalUpdate, setOpenModalUpdate] = useState(false);
+  const [job, setJob] = useState({});
+  const [idDel, setIdDel] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    setMembers(data?.data?.members);
+    setUsers(data?.data);
   }, [data]);
   const actionColumn = [
     {
@@ -23,7 +28,7 @@ const DatatableMembers = ({ id }) => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {/* <Link to={"/members/" + params.row.id} style={{ textDecoration: "none" }}>
+            {/* <Link to={`/user_dashboard/user/` + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link> */}
           </div>
@@ -31,12 +36,31 @@ const DatatableMembers = ({ id }) => {
       },
     },
   ];
+
+  const handleDelete = async (memberId) => {
+    try {
+      setIdDel(memberId);
+      setOpenDel(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUpdate = (row) => {
+    try {
+      setJob(row);
+      setOpenModalUpdate(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="datatableMember">
-      <div className="datatableTitle">Members</div>
+      <div className="datatableTitle">User Apply</div>
       <input
         type="text"
-        placeholder="Search members..."
+        placeholder="Search Users..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         style={{
@@ -52,8 +76,8 @@ const DatatableMembers = ({ id }) => {
       />
       <DataGrid
         className="datagrid"
-        rows={members?.filter((member) => member.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
-        columns={memberColumns}
+        rows={users ?? []}
+        columns={userApplyColumns}
         pageSize={5}
         rowsPerPageOptions={[5]}
         // checkboxSelection
@@ -62,4 +86,4 @@ const DatatableMembers = ({ id }) => {
   );
 };
 
-export default DatatableMembers;
+export default DatatableUserApply;

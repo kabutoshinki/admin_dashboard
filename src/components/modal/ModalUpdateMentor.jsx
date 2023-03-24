@@ -3,9 +3,12 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import * as changelogService from "../../services/changeLogService";
 import { toast } from "react-toastify";
-import { TextField } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import * as mentorService from "../../services/mentorService";
 import * as majorService from "../../services/majorService";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -18,19 +21,32 @@ const style = {
   p: 4,
 };
 
-const ModalUpdateMajor = ({ open, onClose, data, reFresh }) => {
+const ModalUpdateMentor = ({ open, onClose, data, reFresh }) => {
   const [formData, setFormData] = useState({
     id: "",
     name: "",
-    description: "",
+    major: "",
+    phone: "",
+    email: "",
   });
+  const [majors, setMajors] = useState([]);
 
+  const Majors = async () => {
+    const { data } = await majorService.getMajors();
+    setMajors(data?.data?.majorDTOList);
+  };
+
+  useEffect(() => {
+    Majors();
+  }, []);
   useEffect(() => {
     if (data) {
       setFormData({
         id: data.id || "",
         name: data.name || "",
-        description: data.description || "",
+        major: data.major || "",
+        phone: data.phone || "",
+        email: data.email || "",
       });
     }
   }, [data]);
@@ -43,13 +59,13 @@ const ModalUpdateMajor = ({ open, onClose, data, reFresh }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await majorService.updateMajorById(formData);
+      await mentorService.updateMentor(formData);
       console.log(formData);
       toast.success("Update Success");
       onClose();
       reFresh();
     } catch (error) {
-      toast.error("Add Fail");
+      toast.error("Update Fail");
     }
   };
 
@@ -73,7 +89,7 @@ const ModalUpdateMajor = ({ open, onClose, data, reFresh }) => {
             }}
           >
             <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>
-              Update Major
+              Update Topic
             </Typography>
 
             <TextField
@@ -84,11 +100,37 @@ const ModalUpdateMajor = ({ open, onClose, data, reFresh }) => {
               onChange={handleInputChange}
               required
             />
+            <FormControl sx={{ mb: 3, width: "100%" }}>
+              <InputLabel htmlFor="major-select" inputProps={{ id: "major-select" }}>
+                Major
+              </InputLabel>
+              <Select label="major" name="major" value={formData.major || ""} onChange={handleInputChange} required>
+                <MenuItem disabled value="">
+                  Select a major
+                </MenuItem>
+                {majors.map((major) => (
+                  <MenuItem key={major.id} value={major.name}>
+                    {major.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <TextField
-              label="description"
+              label="phone"
+              type={"text"}
               sx={{ mb: 3, width: "100%" }}
-              name="description"
-              value={formData?.description}
+              name="phone"
+              value={formData?.phone}
+              onChange={handleInputChange}
+              inputProps={{ maxLength: 10 }}
+              required
+            />
+            <TextField
+              label="email"
+              type={"email"}
+              sx={{ mb: 3, width: "100%" }}
+              name="email"
+              value={formData?.email}
               onChange={handleInputChange}
               required
             />
@@ -114,4 +156,4 @@ const ModalUpdateMajor = ({ open, onClose, data, reFresh }) => {
   );
 };
 
-export default ModalUpdateMajor;
+export default ModalUpdateMentor;

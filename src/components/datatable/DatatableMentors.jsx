@@ -7,11 +7,18 @@ import { useState } from "react";
 import * as mentorService from "../../services/mentorService";
 import { Button } from "@mui/material";
 import ModalAddMentor from "../modal/ModalAddMentor";
+import ModalDelete from "../modal/ModalDelete";
+import ModalUpdateMajor from "../modal/ModalUpdateMajor";
+import ModalUpdateMentor from "../modal/ModalUpdateMentor";
 const DatatableMentors = () => {
   const [pageSize, setPageSize] = useState(0);
   const [mentors, setMentors] = useState([]);
+  const [mentor, setMentor] = useState({});
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [openModalDel, setOpenModalDel] = useState(false);
+  const [openModalUpdate, setOpenModalUpdate] = useState(false);
+  const [id, setId] = useState();
 
   const Mentors = async () => {
     const { data } = await mentorService.getMentors();
@@ -38,6 +45,12 @@ const DatatableMentors = () => {
             <Link to={"/mentors/" + params.row.id} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
+            <div className="updateButton" onClick={() => handleUpdate(params?.row)}>
+              Update
+            </div>
+            <div className="deleteButton" onClick={() => handleDelete(params?.row?.id)}>
+              Delete
+            </div>
           </div>
         );
       },
@@ -47,21 +60,30 @@ const DatatableMentors = () => {
   const handleAdd = () => {
     setOpen(true);
   };
-
+  const handleDelete = async (id) => {
+    try {
+      console.log(id);
+      setId(id);
+      setOpenModalDel(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleUpdate = (row) => {
+    try {
+      setMentor(row);
+      setOpenModalUpdate(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="datatable">
       <div className="datatableTitle">
         Mentors Table
         <Button onClick={() => handleAdd()}>Add Mentor</Button>
       </div>
-      {/* <DataGrid
-        className="datagrid"
-        rows={mentors ?? []}
-        columns={mentorColumns.concat(actionColumn)}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        // checkboxSelection
-      /> */}
+
       <input
         type="text"
         placeholder="Search mentors..."
@@ -92,6 +114,21 @@ const DatatableMentors = () => {
         rowsPerPageOptions={[5]}
       />
 
+      <ModalUpdateMentor
+        open={openModalUpdate}
+        onClose={() => setOpenModalUpdate(false)}
+        reFresh={handleSuccess}
+        data={mentor}
+      />
+
+      <ModalDelete
+        open={openModalDel}
+        onClose={() => setOpenModalDel(false)}
+        title={"Mentor"}
+        id={id}
+        type={"mentor"}
+        reFresh={handleSuccess}
+      />
       <ModalAddMentor open={open} onClose={() => setOpen(false)} reFresh={handleSuccess} />
     </div>
   );

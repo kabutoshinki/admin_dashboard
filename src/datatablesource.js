@@ -99,12 +99,12 @@ export const memberColumns = [
   {
     field: "role",
     headerName: "Role",
-    width: 200,
+    width: 300,
   },
   {
     field: "title",
     headerName: "Title",
-    width: 200,
+    width: 300,
   },
 ];
 
@@ -192,5 +192,57 @@ export const majorColumns = [
     field: "description",
     headerName: "Description",
     width: 700,
+  },
+];
+
+export const jobColumns = [
+  // { field: "id", headerName: "ID", width: 250 },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 300,
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    width: 700,
+  },
+];
+export const userApplyColumns = [
+  // { field: "id", headerName: "ID", width: 250 },
+  {
+    field: "user_image",
+    headerName: "User Image",
+    width: 150,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img className="cellImg" src={params?.row?.avatar || logo} alt="avatar" />
+        </div>
+      );
+    },
+  },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 300,
+  },
+  {
+    field: "headline",
+    headerName: "Headline",
+    width: 200,
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    width: 250,
+  },
+  {
+    field: "applicationStatus",
+    headerName: "Status",
+    width: 200,
+    renderCell: (params) => {
+      return <div className={`cellWithStatus ${params?.row?.applicationStatus}`}>{params?.row?.applicationStatus}</div>;
+    },
   },
 ];

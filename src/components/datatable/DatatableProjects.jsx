@@ -92,7 +92,7 @@ const DatatableProjects = () => {
         className="datagrid"
         rows={projects?.filter((project) => project?.name.toLowerCase().includes(searchQuery.toLowerCase())) ?? []}
         columns={projectColumns.concat(actionColumn)}
-        pageSize={5}
+        pageSize={10}
         rowsPerPageOptions={[5]}
         // checkboxSelection
       />
